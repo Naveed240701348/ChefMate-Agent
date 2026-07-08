@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% block title %}AI Chat — ChefMate-Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════ CHAT LAYOUT ═══════════════════════ -->
+<div class="cm-chat-layout" id="chatLayout">
+
+  <!-- Mobile sidebar overlay -->
+  <div class="cm-sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ══════════════════════ SIDEBAR ══════════════════════════ -->
+  <aside class="cm-sidebar" id="chatSidebar">
+    <div class="cm-sidebar-header">
+      <a href="{{ url_for('pages.home') }}" class="cm-sidebar-brand">
+        <i class="bi bi-stars"></i>
+        <span>ChefMate<span class="cm-brand-accent">-Agent</span></span>
+      </a>
+      <button class="cm-sidebar-close d-lg-none" id="sidebarClose">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="px-3 mb-3">
+      <button class="btn cm-btn-primary w-100" id="newChatBtn">
+        <i class="bi bi-plus-lg me-2"></i>New Chat
+      </button>
+    </div>
+
+    <nav class="cm-sidebar-nav">
+      <a href="{{ url_for('pages.home') }}" class="cm-sidebar-link">
+        <i class="bi bi-house-fill"></i><span>Home</span>
+      </a>
+      <a href="{{ url_for('pages.chat') }}" class="cm-sidebar-link active">
+        <i class="bi bi-magic"></i><span>New Recipe</span>
+      </a>
+      <a href="#" class="cm-sidebar-link" id="savedLink">
+        <i class="bi bi-heart-fill"></i><span>Saved Recipes</span>
+        <span class="cm-sidebar-badge" id="savedCount">0</span>
+      </a>
+      <a href="#" class="cm-sidebar-link" id="shoppingLink">
+        <i class="bi bi-cart3"></i><span>Shopping List</span>
+      </a>
+      <a href="#" class="cm-sidebar-link" id="historyLink">
+        <i class="bi bi-clock-history"></i><span>Chat History</span>
+      </a>
+      <a href="#" class="cm-sidebar-link" id="settingsLink">
+        <i class="bi bi-gear-fill"></i><span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="cm-sidebar-footer">
+      <div class="cm-sidebar-divider"></div>
+      <div class="cm-sidebar-theme-row">
+        <span><i class="bi bi-moon-stars me-2"></i>Dark Mode</span>
+        <div class="cm-toggle-switch" id="sidebarThemeToggle">
+          <div class="cm-toggle-thumb"></div>
+        </div>
+      </div>
+      <div class="cm-sidebar-divider"></div>
+      <div class="cm-sidebar-info">
+        <i class="bi bi-shield-check-fill text-success me-2"></i>
+        <small>Powered by IBM watsonx Orchestrate</small>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════ CHAT MAIN ══════════════════════════ -->
+  <div class="cm-chat-main" id="chatMain">
+
+    <!-- Topbar -->
+    <div class="cm-chat-topbar">
+      <button class="cm-topbar-menu" id="sidebarToggle" title="Toggle sidebar">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+
+      <div class="cm-topbar-info">
+        <div class="cm-topbar-avatar">
+          <i class="bi bi-stars"></i>
+        </div>
+        <div>
+          <div class="cm-topbar-name">ChefMate-Agent</div>
+          <div class="cm-topbar-status">
+            <span class="cm-status-dot" id="statusDot"></span>
+            <span id="statusText">Ready to cook</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cm-topbar-actions">
+        <button class="cm-topbar-btn" id="clearChatBtn" title="Clear conversation">
+          <i class="bi bi-trash3"></i>
+        </button>
+        <button class="cm-topbar-btn d-none d-lg-flex" id="chatThemeToggle" title="Toggle theme">
+          <i class="bi bi-moon-fill" id="chatThemeIcon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Messages area ─────────────────────────────────────── -->
+    <div class="cm-messages-area" id="messagesArea">
+
+      <!-- Welcome screen — hidden once first message is sent -->
+      <div class="cm-welcome" id="welcomeScreen">
+        <div class="cm-welcome-icon"><i class="bi bi-stars"></i></div>
+        <h2 class="cm-welcome-title">Hi there! I'm ChefMate-Agent 👨‍🍳</h2>
+        <p class="cm-welcome-subtitle">
+          Your AI-powered culinary assistant. Ask me anything about recipes,
+          meal plans, nutrition, or cooking techniques!
+        </p>
+        <div class="cm-suggestions-grid" id="suggestionsGrid">
+          <button class="cm-suggestion-chip" data-prompt="Give me a quick 30-minute chicken dinner recipe">
+            <i class="bi bi-clock me-2"></i>Quick 30-min chicken dinner
+          </button>
+          <button class="cm-suggestion-chip" data-prompt="What can I cook with eggs, tomatoes, and cheese?">
+            <i class="bi bi-search me-2"></i>Recipes with eggs, tomatoes &amp; cheese
+          </button>
+          <button class="cm-suggestion-chip" data-prompt="Create a 7-day healthy meal plan for weight loss">
+            <i class="bi bi-calendar3 me-2"></i>7-day weight loss meal plan
+          </button>
+          <button class="cm-suggestion-chip" data-prompt="Give me a vegan pasta recipe under 400 calories">
+            <i class="bi bi-leaf me-2"></i>Vegan pasta under 400 calories
+          </button>
+          <button class="cm-suggestion-chip" data-prompt="How do I make authentic Spaghetti Carbonara?">
+            <i class="bi bi-globe me-2"></i>Authentic Spaghetti Carbonara
+          </button>
+          <button class="cm-suggestion-chip" data-prompt="What are good high-protein breakfast ideas?">
+            <i class="bi bi-sunrise me-2"></i>High-protein breakfast ideas
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages injected here by chat.js -->
+      <div class="cm-messages-list" id="messagesList"></div>
+
+    </div><!-- /messages-area -->
+
+    <!-- Typing indicator -->
+    <div class="cm-typing-indicator" id="typingIndicator" style="display:none;">
+      <div class="cm-typing-avatar"><i class="bi bi-stars"></i></div>
+      <div class="cm-typing-bubble">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="cm-typing-text">ChefMate is thinking…</span>
+    </div>
+
+    <!-- ── Input area ─────────────────────────────────────────── -->
+    <div class="cm-input-area">
+
+      <!-- Ingredient quick-chips -->
+      <div class="cm-ingredient-chips" id="ingredientChips">
+        <span class="cm-chips-label">Try:</span>
+        {% for chip in ['🍝 Pasta','🍗 Chicken','🥑 Avocado','🥦 Broccoli','🐟 Salmon','🍳 Eggs','🧄 Garlic','🍅 Tomato'] %}
+        <button class="cm-ing-chip"
+                data-ingredient="{{ chip.split(' ')[1] if ' ' in chip else chip }}">{{ chip }}</button>
+        {% endfor %}
+      </div>
+
+      <div class="cm-input-box">
+        <button class="cm-input-action-btn" id="voiceBtn" title="Voice input (UI only)">
+          <i class="bi bi-mic-fill"></i>
+        </button>
+        <textarea class="cm-input" id="messageInput"
+                  placeholder="Ask me anything… e.g. 'Give me a quick pasta recipe for 2'"
+                  rows="1" maxlength="2000"></textarea>
+        <div class="cm-input-right">
+          <span class="cm-char-counter" id="charCounter">0/2000</span>
+          <button class="cm-send-btn" id="sendBtn" disabled title="Send message">
+            <i class="bi bi-send-fill"></i>
+          </button>
+        </div>
+      </div>
+
+      <p class="cm-input-disclaimer">
+        <i class="bi bi-info-circle me-1"></i>
+        ChefMate-Agent can make mistakes. Always verify nutritional information with a dietitian.
+      </p>
+    </div>
+
+  </div><!-- /chat-main -->
+
+  <!-- ══════════════════ RIGHT PANEL: Saved Recipes ══════════════════ -->
+  <aside class="cm-right-panel" id="rightPanel" style="display:none;">
+    <div class="cm-right-panel-header">
+      <h6><i class="bi bi-heart-fill text-danger me-2"></i>Saved Recipes</h6>
+      <button class="cm-panel-close" id="rightPanelClose"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="cm-right-panel-body" id="savedRecipesList">
+      <div class="cm-empty-panel">
+        <i class="bi bi-heart fs-1 text-muted"></i>
+        <p class="mt-2 text-muted small">No saved recipes yet.<br/>
+          Click <i class="bi bi-heart-fill text-danger"></i> on any response to save it here.</p>
+      </div>
+    </div>
+  </aside>
+
+</div><!-- /chat-layout -->
+
+<!-- ══════════════════════════ MODALS ═══════════════════════════ -->
+
+<!-- Shopping List Modal -->
+<div class="modal fade cm-modal" id="shoppingModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content cm-modal-content">
+      <div class="modal-header cm-modal-header">
+        <h5 class="modal-title"><i class="bi bi-cart3 me-2"></i>Shopping List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body cm-modal-body">
+        <p class="text-muted text-center py-3">
+          <i class="bi bi-cart3 fs-1 d-block mb-2"></i>
+          Ask ChefMate-Agent to generate a shopping list in the chat!
+        </p>
+        <button class="btn cm-btn-outline w-100" id="generateShoppingListBtn">
+          <i class="bi bi-magic me-2"></i>Generate Shopping List
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade cm-modal" id="settingsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content cm-modal-content">
+      <div class="modal-header cm-modal-header">
+        <h5 class="modal-title"><i class="bi bi-gear-fill me-2"></i>Settings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body cm-modal-body">
+        <div class="cm-settings-group">
+          <label class="cm-settings-label">Preferred Cuisine</label>
+          <select class="form-select cm-select" id="prefCuisine">
+            <option value="">Any</option>
+            <option>Italian</option><option>Indian</option><option>Japanese</option>
+            <option>Mexican</option><option>Thai</option><option>Mediterranean</option>
+          </select>
+        </div>
+        <div class="cm-settings-group">
+          <label class="cm-settings-label">Dietary Preference</label>
+          <select class="form-select cm-select" id="prefDiet">
+            <option value="">None</option>
+            <option>Vegan</option><option>Vegetarian</option><option>Keto</option>
+            <option>Gluten-Free</option><option>Halal</option><option>Paleo</option>
+          </select>
+        </div>
+        <div class="cm-settings-group">
+          <label class="cm-settings-label">Skill Level</label>
+          <select class="form-select cm-select" id="prefSkill">
+            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+          </select>
+        </div>
+        <div class="cm-settings-group d-flex justify-content-between align-items-center">
+          <label class="cm-settings-label mb-0">Show Nutrition Info</label>
+          <div class="cm-toggle-switch" id="nutritionToggle">
+            <div class="cm-toggle-thumb"></div>
+          </div>
+        </div>
+        <button class="btn cm-btn-primary w-100 mt-3" data-bs-dismiss="modal">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

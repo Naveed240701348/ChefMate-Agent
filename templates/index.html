@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+{% block title %}ChefMate-Agent — AI Recipe Assistant{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+<section class="cm-hero" id="home">
+  <div class="cm-hero-bg"></div>
+  <div class="cm-hero-orb cm-orb-1"></div>
+  <div class="cm-hero-orb cm-orb-2"></div>
+  <div class="cm-hero-orb cm-orb-3"></div>
+
+  <div class="container position-relative z-1">
+    <div class="row align-items-center min-vh-100 py-5">
+
+      <!-- Left copy -->
+      <div class="col-lg-6 text-center text-lg-start fade-in-up">
+        <div class="cm-hero-badge mb-3">
+          <i class="bi bi-stars me-1"></i>Powered by IBM watsonx Orchestrate
+        </div>
+        <h1 class="cm-hero-title">
+          Your Personal<br />
+          <span class="cm-gradient-text">AI Chef</span><br />
+          Has Arrived
+        </h1>
+        <p class="cm-hero-subtitle mt-4">
+          ChefMate-Agent brings professional culinary intelligence to your kitchen.
+          Discover recipes, plan meals, track nutrition, and cook with confidence —
+          all through a simple conversation.
+        </p>
+        <div class="cm-hero-cta mt-5 d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+          <a href="{{ url_for('pages.chat') }}" class="btn cm-btn-primary cm-btn-lg">
+            <i class="bi bi-chat-dots-fill me-2"></i>Start Cooking Now
+          </a>
+          <a href="#how-it-works" class="btn cm-btn-outline cm-btn-lg">
+            <i class="bi bi-play-circle me-2"></i>See How It Works
+          </a>
+        </div>
+        <div class="cm-hero-stats mt-5 d-flex flex-wrap gap-4 justify-content-center justify-content-lg-start">
+          <div class="cm-stat">
+            <span class="cm-stat-number">500+</span>
+            <span class="cm-stat-label">Recipes</span>
+          </div>
+          <div class="cm-stat-divider"></div>
+          <div class="cm-stat">
+            <span class="cm-stat-number">30+</span>
+            <span class="cm-stat-label">Cuisines</span>
+          </div>
+          <div class="cm-stat-divider"></div>
+          <div class="cm-stat">
+            <span class="cm-stat-number">10+</span>
+            <span class="cm-stat-label">Diet Types</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right illustration -->
+      <div class="col-lg-6 mt-5 mt-lg-0 fade-in-right">
+        <div class="cm-hero-illustration">
+          <div class="cm-hero-card-float cm-float-1">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>Spaghetti Carbonara ready!
+          </div>
+          <div class="cm-hero-card-float cm-float-2">
+            <i class="bi bi-lightning-fill text-warning me-2"></i>15 min prep time
+          </div>
+          <div class="cm-hero-card-float cm-float-3">
+            <span class="cm-nutrition-badge">🥗 450 kcal</span>
+          </div>
+          <div class="cm-hero-visual">
+            <div class="cm-chef-svg-wrap">
+              <svg viewBox="0 0 400 400" class="cm-hero-svg" xmlns="http://www.w3.org/2000/svg">
+                <!-- Plate -->
+                <ellipse cx="200" cy="280" rx="140" ry="40" fill="#f0ece4" />
+                <ellipse cx="200" cy="270" rx="130" ry="35" fill="#e8e0d0" />
+                <!-- Food on plate -->
+                <ellipse cx="200" cy="265" rx="90" ry="28" fill="#FF8C42" opacity="0.9"/>
+                <circle cx="165" cy="258" r="15" fill="#FF6B35" />
+                <circle cx="200" cy="252" r="18" fill="#FFA94D" />
+                <circle cx="235" cy="258" r="15" fill="#FF6B35" />
+                <!-- Greens -->
+                <ellipse cx="185" cy="245" rx="12" ry="7" fill="#4CAF50" opacity="0.9" transform="rotate(-20,185,245)"/>
+                <ellipse cx="215" cy="243" rx="11" ry="6" fill="#66BB6A" opacity="0.9" transform="rotate(15,215,243)"/>
+                <!-- Steam lines -->
+                <path d="M180 230 Q185 215 180 200 Q175 185 180 170" stroke="#ccc" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+                <path d="M200 225 Q205 210 200 195 Q195 180 200 165" stroke="#ccc" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+                <path d="M220 230 Q225 215 220 200 Q215 185 220 170" stroke="#ccc" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+                <!-- Chef hat -->
+                <rect x="155" y="90" width="90" height="55" rx="8" fill="white" stroke="#eee" stroke-width="2"/>
+                <ellipse cx="200" cy="90" rx="55" ry="28" fill="white" stroke="#eee" stroke-width="2"/>
+                <ellipse cx="200" cy="68" rx="30" ry="28" fill="white" stroke="#eee" stroke-width="2"/>
+                <!-- Face -->
+                <circle cx="200" cy="148" r="36" fill="#FFDAB9" />
+                <circle cx="188" cy="143" r="4" fill="#333" />
+                <circle cx="212" cy="143" r="4" fill="#333" />
+                <circle cx="189" cy="141" r="1.5" fill="white" />
+                <circle cx="213" cy="141" r="1.5" fill="white" />
+                <path d="M190 158 Q200 167 210 158" stroke="#c0725a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- Fork & Knife decorative -->
+                <line x1="95" y1="240" x2="95" y2="300" stroke="#aaa" stroke-width="4" stroke-linecap="round"/>
+                <path d="M87 240 L87 258 Q95 265 103 258 L103 240" stroke="#aaa" stroke-width="3" fill="none"/>
+                <line x1="305" y1="240" x2="305" y2="310" stroke="#aaa" stroke-width="4" stroke-linecap="round"/>
+                <ellipse cx="305" cy="240" rx="8" ry="14" fill="none" stroke="#aaa" stroke-width="3"/>
+                <!-- Stars -->
+                <text x="120" y="130" font-size="16" fill="#FFA94D" opacity="0.7">★</text>
+                <text x="268" y="120" font-size="14" fill="#FF6B35" opacity="0.6">★</text>
+                <text x="145" y="180" font-size="10" fill="#4CAF50" opacity="0.5">★</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="cm-scroll-indicator">
+    <div class="cm-scroll-dot"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ WHY CHEFMATE ═══════════════════════════════ -->
+<section class="cm-section" id="features">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">Why ChefMate-Agent?</div>
+      <h2 class="cm-section-title">Everything You Need<br />to Cook Smarter</h2>
+      <p class="cm-section-subtitle">
+        From instant recipe generation to full meal planning, ChefMate-Agent covers every
+        step of your culinary journey.
+      </p>
+    </div>
+
+    <div class="row gy-4 mt-2">
+      {% set features = [
+        ('bi-lightning-charge-fill','#FF6B35','Instant Recipes','Get personalised recipes in seconds based on the ingredients you have at home.'),
+        ('bi-heart-pulse-fill','#4CAF50','Nutrition Tracking','Detailed macros and micronutrients for every recipe — stay on top of your health goals.'),
+        ('bi-calendar3','#6366F1','Meal Planning','Plan your entire week with a single prompt. ShoppingList generated automatically.'),
+        ('bi-translate','#F59E0B','30+ Cuisines','From Italian to Japanese, Thai to Mexican — explore global flavours with ease.'),
+        ('bi-shield-check-fill','#14B8A6','Dietary Support','Vegan, Keto, Gluten-Free, Halal — ChefMate-Agent respects all your dietary needs.'),
+        ('bi-chat-square-dots-fill','#EC4899','Natural Conversation','Just chat naturally — no forms, no dropdowns. Your AI chef understands plain English.')
+      ] %}
+      {% for icon, color, title, desc in features %}
+      <div class="col-sm-6 col-lg-4 fade-in-up">
+        <div class="cm-feature-card h-100">
+          <div class="cm-feature-icon" style="--icon-color: {{ color }}">
+            <i class="bi {{ icon }}"></i>
+          </div>
+          <h5 class="cm-feature-title">{{ title }}</h5>
+          <p class="cm-feature-desc">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ HOW IT WORKS ════════════════════════════ -->
+<section class="cm-section cm-section-alt" id="how-it-works">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">Process</div>
+      <h2 class="cm-section-title">How It Works</h2>
+      <p class="cm-section-subtitle">Three simple steps to your perfect meal.</p>
+    </div>
+
+    <div class="row gy-4 mt-3 align-items-center">
+      {% set steps = [
+        ('1','bi-keyboard','Tell the AI','Type what ingredients you have, what cuisine you want, or how much time you have.'),
+        ('2','bi-cpu-fill','AI Processes','ChefMate-Agent powered by IBM watsonx Orchestrate analyses your request and crafts a perfect recipe.'),
+        ('3','bi-fire','Start Cooking','Follow the step-by-step instructions with cooking tips, substitutions, and nutritional info.')
+      ] %}
+      {% for num, icon, title, desc in steps %}
+      <div class="col-md-4 fade-in-up text-center">
+        <div class="cm-step-card">
+          <div class="cm-step-number">{{ num }}</div>
+          <div class="cm-step-icon"><i class="bi {{ icon }}"></i></div>
+          <h5 class="cm-step-title mt-3">{{ title }}</h5>
+          <p class="cm-step-desc">{{ desc }}</p>
+        </div>
+        {% if not loop.last %}
+        <div class="cm-step-arrow d-none d-md-block"></div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ CUISINES ════════════════════════════ -->
+<section class="cm-section" id="cuisines">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">Global Flavours</div>
+      <h2 class="cm-section-title">Supported Cuisines</h2>
+      <p class="cm-section-subtitle">Explore authentic flavours from around the world.</p>
+    </div>
+
+    <div class="cm-cuisines-grid mt-4">
+      {% set cuisines = [
+        ('🍕','Italian'),('🍜','Japanese'),('🌮','Mexican'),('🍛','Indian'),
+        ('🥘','Spanish'),('🫕','Thai'),('🍲','Chinese'),('🥗','Mediterranean'),
+        ('🍗','American'),('🥙','Middle Eastern'),('🫔','Korean'),('🥞','French')
+      ] %}
+      {% for emoji, name in cuisines %}
+      <div class="cm-cuisine-chip fade-in-up">
+        <span class="cm-cuisine-emoji">{{ emoji }}</span>
+        <span class="cm-cuisine-name">{{ name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ DIET TYPES ════════════════════════════ -->
+<section class="cm-section cm-section-alt">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">Dietary Options</div>
+      <h2 class="cm-section-title">Every Diet, Covered</h2>
+      <p class="cm-section-subtitle">ChefMate-Agent adapts to your lifestyle and nutritional goals.</p>
+    </div>
+
+    <div class="row gy-3 mt-3">
+      {% set diets = [
+        ('bi-leaf-fill','#4CAF50','Vegan','100% plant-based recipes'),
+        ('bi-droplet-fill','#06B6D4','Vegetarian','No meat, full flavour'),
+        ('bi-fire','#EF4444','Keto','Low-carb, high-fat'),
+        ('bi-heart-fill','#EC4899','Gluten-Free','Celiac & gluten-sensitive friendly'),
+        ('bi-star-fill','#F59E0B','Halal','Islamically permissible recipes'),
+        ('bi-moon-fill','#8B5CF6','Low-Calorie','Mindful eating plans'),
+        ('bi-activity','#14B8A6','High-Protein','Athlete & fitness-focused'),
+        ('bi-sun-fill','#F97316','Paleo','Back-to-basics nutrition')
+      ] %}
+      {% for icon, color, title, desc in diets %}
+      <div class="col-6 col-md-3 fade-in-up">
+        <div class="cm-diet-card text-center h-100">
+          <i class="bi {{ icon }} cm-diet-icon" style="color: {{ color }}"></i>
+          <h6 class="cm-diet-title mt-2">{{ title }}</h6>
+          <p class="cm-diet-desc">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ POPULAR RECIPES ════════════════════════════ -->
+<section class="cm-section" id="popular">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">Trending Now</div>
+      <h2 class="cm-section-title">Popular Recipes</h2>
+      <p class="cm-section-subtitle">Ask ChefMate-Agent to make any of these right now.</p>
+    </div>
+
+    <div class="row gy-4 mt-2">
+      {% set recipes = [
+        ('Spaghetti Carbonara','Italian','Easy','25 min','450 kcal','🍝','Creamy pasta with pancetta, eggs, and parmesan.'),
+        ('Chicken Tikka Masala','Indian','Medium','45 min','380 kcal','🍛','Rich, aromatic curry with tender chicken in a spiced tomato-cream sauce.'),
+        ('Avocado Toast','American','Easy','10 min','290 kcal','🥑','Whole-grain toast topped with smashed avocado and seasonal toppings.'),
+        ('Pad Thai','Thai','Medium','30 min','420 kcal','🍜','Stir-fried rice noodles with shrimp, peanuts, and lime.'),
+        ('Margherita Pizza','Italian','Easy','35 min','510 kcal','🍕','Classic Neapolitan pizza with fresh mozzarella and basil.'),
+        ('Miso Ramen','Japanese','Hard','60 min','490 kcal','🍲','Deep umami broth with noodles, soft-boiled egg, and nori.')
+      ] %}
+      {% for name, cuisine, diff, time, kcal, emoji, desc in recipes %}
+      <div class="col-sm-6 col-lg-4 fade-in-up">
+        <div class="cm-recipe-card h-100">
+          <div class="cm-recipe-img-wrap">
+            <div class="cm-recipe-emoji-placeholder">{{ emoji }}</div>
+            <span class="cm-recipe-badge">{{ cuisine }}</span>
+          </div>
+          <div class="cm-recipe-body">
+            <h5 class="cm-recipe-title">{{ name }}</h5>
+            <p class="cm-recipe-desc">{{ desc }}</p>
+            <div class="cm-recipe-meta">
+              <span><i class="bi bi-clock me-1"></i>{{ time }}</span>
+              <span><i class="bi bi-bar-chart me-1"></i>{{ diff }}</span>
+              <span><i class="bi bi-fire me-1"></i>{{ kcal }}</span>
+            </div>
+          </div>
+          <div class="cm-recipe-footer">
+            <a href="{{ url_for('pages.chat') }}?q=Give me the full recipe for {{ name }}"
+               class="btn cm-btn-outline-sm w-100">
+              <i class="bi bi-chat-dots me-1"></i>Ask ChefMate
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ HEALTHY TIPS ════════════════════════════ -->
+<section class="cm-section cm-section-alt">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-5 fade-in-up">
+        <div class="cm-section-badge">Wellness</div>
+        <h2 class="cm-section-title">Healthy Eating Tips</h2>
+        <p class="cm-section-subtitle">
+          ChefMate-Agent doesn't just cook — it educates. Learn science-backed tips
+          to build lifelong healthy eating habits.
+        </p>
+        <a href="{{ url_for('pages.chat') }}?q=Give me healthy eating tips for the week"
+           class="btn cm-btn-primary mt-3">
+          <i class="bi bi-chat-dots me-2"></i>Ask for Tips
+        </a>
+      </div>
+      <div class="col-lg-7 fade-in-right">
+        <div class="row gy-3">
+          {% set tips = [
+            ('bi-droplet-half','Stay Hydrated','Drink 8–10 glasses of water daily to support digestion and metabolism.'),
+            ('bi-clock-history','Eat Mindfully','Slow down, chew thoroughly, and listen to your body\'s hunger cues.'),
+            ('bi-grid-3x2-gap-fill','Balanced Plates','Fill half your plate with vegetables, a quarter protein, a quarter whole grains.'),
+            ('bi-calendar-week','Meal Prep','Prepping meals in advance saves time, money, and reduces unhealthy choices.')
+          ] %}
+          {% for icon, title, desc in tips %}
+          <div class="col-sm-6">
+            <div class="cm-tip-card">
+              <i class="bi {{ icon }} cm-tip-icon"></i>
+              <div>
+                <h6 class="cm-tip-title">{{ title }}</h6>
+                <p class="cm-tip-desc">{{ desc }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ TESTIMONIALS ════════════════════════════ -->
+<section class="cm-section">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">Testimonials</div>
+      <h2 class="cm-section-title">Loved by Home Chefs</h2>
+    </div>
+
+    <div class="row gy-4 mt-2">
+      {% set testimonials = [
+        ('Sarah M.','Home Chef','★★★★★','ChefMate-Agent suggested a perfect weeknight dinner using leftover chicken and pasta. My family loved it!'),
+        ('James K.','Fitness Enthusiast','★★★★★','I asked for high-protein meal plans and the agent gave me a full week of recipes with macros. Incredible!'),
+        ('Priya R.','Food Blogger','★★★★★','The variety of cuisines is amazing. I discovered three new Indian recipes I\'d never heard of before.')
+      ] %}
+      {% for name, role, stars, text in testimonials %}
+      <div class="col-md-4 fade-in-up">
+        <div class="cm-testimonial-card h-100">
+          <div class="cm-stars">{{ stars }}</div>
+          <p class="cm-testimonial-text">"{{ text }}"</p>
+          <div class="cm-testimonial-author">
+            <div class="cm-author-avatar">{{ name[0] }}</div>
+            <div>
+              <div class="cm-author-name">{{ name }}</div>
+              <div class="cm-author-role">{{ role }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ FAQ ════════════════════════════ -->
+<section class="cm-section cm-section-alt" id="faq">
+  <div class="container">
+    <div class="cm-section-header text-center fade-in-up">
+      <div class="cm-section-badge">FAQ</div>
+      <h2 class="cm-section-title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+      <div class="col-lg-8 fade-in-up">
+        <div class="accordion cm-accordion" id="faqAccordion">
+          {% set faqs = [
+            ('What is ChefMate-Agent?','ChefMate-Agent is an AI-powered recipe and cooking assistant built on IBM watsonx Orchestrate. You simply chat with it like you would a real chef.'),
+            ('Do I need to create an account?','No account needed. Just open the app and start chatting — your session is private and ephemeral.'),
+            ('Can it handle dietary restrictions?','Absolutely. Just mention your dietary needs (vegan, keto, gluten-free, halal, etc.) and the AI will tailor every recipe accordingly.'),
+            ('How accurate is the nutritional info?','Nutrition data is estimated using standard food databases. Always consult a dietitian for medical dietary requirements.'),
+            ('Can I save my favourite recipes?','Yes! Use the Save button on any recipe card and it\'ll appear in your Saved Recipes sidebar panel.')
+          ] %}
+          {% for q, a in faqs %}
+          <div class="accordion-item cm-faq-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button {% if not loop.first %}collapsed{% endif %} cm-faq-btn"
+                      type="button" data-bs-toggle="collapse"
+                      data-bs-target="#faq{{ loop.index0 }}">
+                {{ q }}
+              </button>
+            </h2>
+            <div id="faq{{ loop.index0 }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}"
+                 data-bs-parent="#faqAccordion">
+              <div class="accordion-body cm-faq-body">{{ a }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ CTA BANNER ════════════════════════════ -->
+<section class="cm-cta-section">
+  <div class="container text-center fade-in-up">
+    <h2 class="cm-cta-title">Ready to Cook Something Amazing?</h2>
+    <p class="cm-cta-subtitle">
+      Start a conversation with your AI chef. No signup. No credit card. Just great food.
+    </p>
+    <a href="{{ url_for('pages.chat') }}" class="btn cm-btn-primary cm-btn-lg mt-4">
+      <i class="bi bi-chat-dots-fill me-2"></i>Start Cooking — It's Free
+    </a>
+  </div>
+</section>
+
+{% endblock %}

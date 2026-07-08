@@ -1,0 +1,161 @@
+/* ═══════════════════════════════════════════════════════════════
+   ChefMate-Agent — Animations CSS
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+@keyframes cardFloat1 {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes cardFloat2 {
+  0%, 100% { transform: translateY(0) rotate(2deg); }
+  50%       { transform: translateY(-12px) rotate(-1deg); }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  60%       { transform: translateX(-50%) translateY(14px); opacity: 0; }
+  61%       { transform: translateX(-50%) translateY(0); opacity: 0; }
+  80%       { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%            { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: .6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes messagePop {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Utility animation classes ──────────────────────────────── */
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger children with delay */
+.fade-in-up:nth-child(1)  { transition-delay: .05s; }
+.fade-in-up:nth-child(2)  { transition-delay: .12s; }
+.fade-in-up:nth-child(3)  { transition-delay: .19s; }
+.fade-in-up:nth-child(4)  { transition-delay: .26s; }
+.fade-in-up:nth-child(5)  { transition-delay: .33s; }
+.fade-in-up:nth-child(6)  { transition-delay: .40s; }
+
+/* Skeleton loading */
+.cm-skeleton {
+  background: linear-gradient(90deg,
+    var(--cm-surface-2) 25%,
+    var(--cm-border) 50%,
+    var(--cm-surface-2) 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: var(--cm-radius-sm);
+}
+
+/* Button ripple */
+.cm-btn-primary { overflow: hidden; }
+.cm-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.4);
+  transform: scale(0);
+  animation: ripple .5s linear;
+  pointer-events: none;
+}
+
+/* Message entrance */
+.cm-message-row { animation: messagePop .3s cubic-bezier(.34,1.56,.64,1) both; }
+
+/* Loading spinner */
+.cm-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--cm-border);
+  border-top-color: var(--cm-primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: inline-block;
+}
+
+/* Typing dots */
+.cm-typing-bubble span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--cm-text-muted);
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: typingBounce 1.2s ease infinite;
+}
+.cm-typing-bubble span:nth-child(2) { animation-delay: .2s; }
+.cm-typing-bubble span:nth-child(3) { animation-delay: .4s; }
